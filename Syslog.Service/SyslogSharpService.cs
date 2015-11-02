@@ -21,45 +21,50 @@ using Syslog.Server.Console;
 
 namespace Syslog.Service
 {
-    public partial class SyslogSharpService : ServiceBase
+  public partial class SyslogSharpService : ServiceBase
+  {
+    private Listener _listener;
+    private SysLogServer _sysLogServer;
+
+    public SyslogSharpService()
     {
-        private Listener _listener;
-        private SysLogServer _sysLogServer;
-
-        public SyslogSharpService()
-        {
-            InitializeComponent();
-        }
-
-        protected override void OnStart(string[] args)
-        {
-            if (_listener == null)
-            {
-	            var settings = Settings.Default;
-
-				IPAddress address;
-				if (!IPAddress.TryParse(settings.ListenIPAddress, out address))
-				{
-					address = IPAddress.Any;
-				}
-				
-				_listener = new Listener(address, settings.ListenPort, settings.BufferFlushFrequency);
-            }
-
-            if (_sysLogServer == null)
-            {
-				_sysLogServer = new SysLogServer(_listener);
-            }
-
-            _sysLogServer.Start();
-        }
-
-        protected override void OnStop()
-        {
-            if (_sysLogServer != null)
-            {
-                _sysLogServer.Stop();
-            }
-        }
+      InitializeComponent();
     }
+
+    public void Debug()
+    {
+      OnStart(new string[0]);
+    }
+
+    protected override void OnStart(string[] args)
+    {
+      if (_listener == null)
+      {
+        var settings = Settings.Default;
+
+        IPAddress address;
+        if (!IPAddress.TryParse(settings.ListenIPAddress, out address))
+        {
+          address = IPAddress.Any;
+        }
+
+        _listener = new Listener(address, settings.ListenPort, settings.BufferFlushFrequency);
+      }
+
+      if (_sysLogServer == null)
+      {
+        _sysLogServer = new SysLogServer(_listener);
+      }
+
+      _sysLogServer.Start();
+    }
+
+    protected override void OnStop()
+    {
+      if (_sysLogServer != null)
+      {
+        _sysLogServer.Stop();
+      }
+    }
+  }
 }

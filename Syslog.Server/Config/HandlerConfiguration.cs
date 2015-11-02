@@ -49,7 +49,7 @@ namespace Syslog.Server.Config
         /// <summary>
         /// Gets or sets the fully compiled name of the assembly.
         /// </summary>
-        [ConfigurationProperty("assemblyName", IsRequired = true, IsKey = true)]
+        [ConfigurationProperty("assemblyName", IsRequired = false, IsKey = false)]
         public string AssemblyName
         {
             get { return this["assemblyName"] as string; }
@@ -69,7 +69,7 @@ namespace Syslog.Server.Config
         /// <summary>
         /// Gets or sets the name of the class that implements the <see cref="IParser"/> interface.
         /// </summary>
-        [ConfigurationProperty("parserClassName", IsRequired = true)]
+        [ConfigurationProperty("parserClassName", IsRequired = true, IsKey = true)]
         public string ParserClassName
         {
             get { return this["parserClassName"] as string; }
@@ -79,7 +79,7 @@ namespace Syslog.Server.Config
         /// <summary>
         /// Gets or sets a comma or semi-colon seperated list of IPv4 addresses to listen for messages from.
         /// </summary>
-        [ConfigurationProperty("filterIPAdresses", IsRequired = true)]
+        [ConfigurationProperty("filterIPAdresses", IsRequired = false)]
         public string FilterIPAddresses
         {
             get { return this["filterIPAdresses"] as string; }
@@ -104,6 +104,12 @@ namespace Syslog.Server.Config
         {
             get { return this["ipForwards"] as string; }
             set { this["ipForwards"] = value; }
+        }
+
+        [ConfigurationProperty("properties", IsDefaultCollection = false), ConfigurationCollection(typeof(PropertyCollection), AddItemName = "add", ClearItemsName = "clear", RemoveItemName = "remove")]
+        public PropertyCollection HandlerProperties
+        {
+          get { return base["properties"] as PropertyCollection; }
         }
     }
 }

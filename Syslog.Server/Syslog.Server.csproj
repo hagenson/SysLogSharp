@@ -51,6 +51,7 @@
     <Compile Include="Config\HandlerCollection.cs" />
     <Compile Include="Config\HandlerConfiguration.cs" />
     <Compile Include="Config\HandlerSection.cs" />
+    <Compile Include="Config\PropertyCollection.cs" />
     <Compile Include="Console\ClientMethods.cs" />
     <Compile Include="Console\IConsole.cs" />
     <Compile Include="Console\MessageReceivedCallbackSink.cs" />

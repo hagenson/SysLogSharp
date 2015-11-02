@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.ServiceProcess;
 using Syslog.Service.Installer;
+using System.Diagnostics;
 
 namespace Syslog.Service
 {
@@ -44,12 +45,20 @@ namespace Syslog.Service
 				}
 				else
 				{
-					Console.WriteLine("Invalid command line args -i for install or -u for uninstall");
+            Trace.Listeners.Add(new ConsoleTraceListener());
+            Trace.WriteLine("Debugging press return to exit...");
+            var svc = new SyslogSharpService();
+            svc.Debug();
+            Console.ReadLine();
+            Trace.WriteLine("Finished.");
+
+//					Console.WriteLine("Invalid command line args -i for install or -u for uninstall");
 				}
 			}
 			else
 			{
 				var servicesToRun = new ServiceBase[] { new SyslogSharpService() };
+
 				ServiceBase.Run(servicesToRun);
 			}
         }

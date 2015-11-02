@@ -16,112 +16,114 @@
 
 using System;
 using System.Collections;
+using System.Diagnostics;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Ipc;
 
 namespace Syslog.Server.Console
 {
-    public delegate void MessageReceivedCallback(SyslogMessage message);
+  public delegate void MessageReceivedCallback(SyslogMessage message);
+
+  /// <summary>
+  /// Methods for setting up the services remoting communication channel.
+  /// </summary>
+  public class SysLogServer
+  {
+    private readonly IListener _listener;
+    private IpcChannel _channel;
 
     /// <summary>
-    /// Methods for setting up the services remoting communication channel.
+    /// Creates a new instace of the class.
     /// </summary>
-    public class SysLogServer
+    public SysLogServer(IListener listener)
     {
-		private readonly IListener _listener;
-	    private IpcChannel _channel;
+      _listener = listener;
 
-        /// <summary>
-        /// Creates a new instace of the class.
-        /// </summary>
-		public SysLogServer(IListener listener)
-        {
-	        _listener = listener;
-
-			if (_listener == null)
-			{
-				throw new ArgumentNullException("listener");
-			}
-        }
-
-	    /// <summary>
-        /// Sets up the services remoting channel
-        /// </summary>
-        public bool Start()
-        {
-			if (!_listener.Start())
-			{
-				return false;
-			}
-			
-            try
-            {
-                var props = new Hashtable();
-                props["typeFilterLevel"] = "Full";
-
-                // Both formatters only use the typeFilterLevel property
-                var cliFormatter = new BinaryClientFormatterSinkProvider(props, null);
-                var srvFormatter = new BinaryServerFormatterSinkProvider(props, null);
-
-                // The channel requires these to be set that it can found by name by clients
-                props["name"] = "SyslogConsole";
-                props["portName"] = "SyslogConsole";
-                props["authorizedGroup"] = "Everyone";
-
-                // Create the channel
-                _channel = new IpcChannel(props, cliFormatter, srvFormatter) {IsSecured = false};
-
-	            // Register the channel in the Windows IPC list
-                ChannelServices.RegisterChannel(_channel, false);
-
-                // Register the channel for remoting use
-                RemotingConfiguration.RegisterWellKnownServiceType(typeof(ClientMethods), "Server", WellKnownObjectMode.Singleton);
-
-                // Assign the event to a handler
-				_listener.MessageReceived += Listener_MessageReceived;
-
-	            return true;
-            }
-            catch (Exception ex)
-            {
-                EventLogger.LogEvent("Could not create a named pipe because: " + ex.Message + Environment.NewLine + "Communication with the GUI console will be disabled.",
-                    System.Diagnostics.EventLogEntryType.Warning);
-            }
-
-		    return false;
-        }
-
-        /// <summary>
-        /// Raise the message received event for listening clients.
-        /// </summary>
-        /// <param name="e">Event data.</param>
-        private void Listener_MessageReceived(MessageReceivedEventArgs e)
-        {
-            ClientMethods.FireNewMessageReceived(e.SyslogMessage);
-        }
-
-        /// <summary>
-        /// Unregisters and tears down the services remoting channel.
-        /// </summary>
-        public void Stop()
-        {
-			if (_listener != null)
-			{
-				_listener.Stop();
-			}
-
-            if (_channel != null)
-            {
-                try
-                {
-                    ChannelServices.UnregisterChannel(_channel);
-                }
-                catch (Exception ex)
-                {
-                    EventLogger.LogEvent("Could not unregister IPC channel because: " + ex.Message, System.Diagnostics.EventLogEntryType.Warning);
-                }
-            }
-        }
+      if (_listener == null)
+      {
+        throw new ArgumentNullException("listener");
+      }
     }
+
+    /// <summary>
+    /// Sets up the services remoting channel
+    /// </summary>
+    public bool Start()
+    {
+      Trace.WriteLine("Starting listener.");
+      if (!_listener.Start())
+      {
+        return false;
+      }
+
+      try
+      {
+        var props = new Hashtable();
+        props["typeFilterLevel"] = "Full";
+
+        // Both formatters only use the typeFilterLevel property
+        var cliFormatter = new BinaryClientFormatterSinkProvider(props, null);
+        var srvFormatter = new BinaryServerFormatterSinkProvider(props, null);
+
+        // The channel requires these to be set that it can found by name by clients
+        props["name"] = "SyslogConsole";
+        props["portName"] = "SyslogConsole";
+        props["authorizedGroup"] = "Everyone";
+
+        // Create the channel
+        _channel = new IpcChannel(props, cliFormatter, srvFormatter) { IsSecured = false };
+
+        // Register the channel in the Windows IPC list
+        ChannelServices.RegisterChannel(_channel, false);
+
+        // Register the channel for remoting use
+        RemotingConfiguration.RegisterWellKnownServiceType(typeof(ClientMethods), "Server", WellKnownObjectMode.Singleton);
+
+        // Assign the event to a handler
+        _listener.MessageReceived += Listener_MessageReceived;
+
+        return true;
+      }
+      catch (Exception ex)
+      {
+        EventLogger.LogEvent("Could not create a named pipe because: " + ex.Message + Environment.NewLine + "Communication with the GUI console will be disabled.",
+            System.Diagnostics.EventLogEntryType.Warning);
+      }
+
+      return false;
+    }
+
+    /// <summary>
+    /// Raise the message received event for listening clients.
+    /// </summary>
+    /// <param name="e">Event data.</param>
+    private void Listener_MessageReceived(MessageReceivedEventArgs e)
+    {
+      ClientMethods.FireNewMessageReceived(e.SyslogMessage);
+    }
+
+    /// <summary>
+    /// Unregisters and tears down the services remoting channel.
+    /// </summary>
+    public void Stop()
+    {
+      if (_listener != null)
+      {
+        _listener.Stop();
+      }
+
+      if (_channel != null)
+      {
+        try
+        {
+          ChannelServices.UnregisterChannel(_channel);
+        }
+        catch (Exception ex)
+        {
+          EventLogger.LogEvent("Could not unregister IPC channel because: " + ex.Message, System.Diagnostics.EventLogEntryType.Warning);
+        }
+      }
+    }
+  }
 }

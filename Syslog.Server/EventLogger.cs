@@ -36,6 +36,7 @@ namespace Syslog.Server
         {
             try
             {
+                Trace.WriteLine(message);
                 if (!EventLog.SourceExists(Source))
                 {
                     EventLog.CreateEventSource(Source, LogName);
@@ -43,8 +44,9 @@ namespace Syslog.Server
 
                 EventLog.WriteEntry(Source, message, entryType);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+              Trace.WriteLine("Logging error: " + e.Message);
                 //Make sure no errors are thrown here to avoid application crash.
             }
         }

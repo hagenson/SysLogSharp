@@ -23,12 +23,14 @@ namespace Syslog.TrafficLogger
 
         public string[] Parse(SyslogMessage message)
         {
+          lock (typeRegex)
+          {
             if (message == null || String.IsNullOrWhiteSpace(message.Message))
-                return null;
+              return null;
 
             // Is this an interesting message?
             if (!typeRegex.IsMatch(message.Message) || !subtypeRegex.IsMatch(message.Message))
-                return null;
+              return null;
 
             // Get the bits we want
             string[] result = new string[5];
@@ -37,8 +39,9 @@ namespace Syslog.TrafficLogger
             result[2] = dstRegex.Match(message.Message).Value;
             result[3] = sentRegex.Match(message.Message).Value;
             result[4] = rcvdRegex.Match(message.Message).Value;
-
+            
             return result;
+          }
         }
 
         private Regex typeRegex;
