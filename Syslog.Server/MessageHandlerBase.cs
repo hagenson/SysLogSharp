@@ -92,18 +92,7 @@ namespace Syslog.Server
             {
                 if (_parserType == null)
                 {
-                    if (AssemblyName != null && ParserClassName != null)
-                    {
-                        if (_assemblyRef == null)
-                        {
-                            GetAssembly();
-                        }
-
-                        if (_assemblyRef != null)
-                        {
-                            _parserType = _assemblyRef.GetType(AssemblyName + "." + ParserClassName);
-                        }
-                    }
+                    _parserType = Type.GetType(ParserClassName);
                 }
 
                 if (_parserType != null && _parser == null)
@@ -125,18 +114,8 @@ namespace Syslog.Server
             {
                 if (_storerType == null)
                 {
-                    if (AssemblyName != null && StorerClassName != null)
-                    {
-                        if (_assemblyRef == null)
-                        {
-                            GetAssembly();
-                        }
-
-                        if (_assemblyRef != null)
-                        {
-                            _storerType = _assemblyRef.GetType(AssemblyName + "." + StorerClassName);
-                        }
-                    }
+                    
+                    _storerType = Type.GetType(StorerClassName);                    
                 }
 
                 if (_storerType != null && _dataStore == null)
