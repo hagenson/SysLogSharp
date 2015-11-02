@@ -24,36 +24,56 @@ namespace Syslog.TrafficLogger
 
 
         public string[] Parse(SyslogMessage message)
+<<<<<<< HEAD
         {
-          Trace.WriteLine("Parsing message");
-
           lock (typeRegex)
           {
             if (message == null || String.IsNullOrWhiteSpace(message.Message))
+              return null;
+
+            // Is this an interesting message?
+            if (!typeRegex.IsMatch(message.Message) || !subtypeRegex.IsMatch(message.Message))
+              return null;
+
+            // Get the bits we want
+            string[] result = new string[5];
+            result[0] = message.Timestamp.ToUniversalTime().ToString("yyyy-MM-DD hh:mm:ss");
+            result[1] = srcRegex.Match(message.Message).Value;
+            result[2] = dstRegex.Match(message.Message).Value;
+            result[3] = sentRegex.Match(message.Message).Value;
+            result[4] = rcvdRegex.Match(message.Message).Value;
+            
+            return result;
+          }
+=======
+        {
+            Trace.WriteLine("Parsing message");
+
+            if (message == null || String.IsNullOrWhiteSpace(message.Message))
             {
                 Trace.WriteLine("Empty message");
-              return null;
+                return null;
             }
 
             // Is this an interesting message?
             if (!typeRegex.IsMatch(message.Message) || !subtypeRegex.IsMatch(message.Message))
             {
                 Trace.WriteLine("Message rejected - no regex match");
-              return null;
+                return null;
             }
 
             // Get the bits we want
             string[] result = new string[5];
-            result[0] = message.Timestamp.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss");
-            result[1] = srcRegex.Match(message.Message).Groups[1].Value;
-            result[2] = dstRegex.Match(message.Message).Groups[1].Value;
-            result[3] = sentRegex.Match(message.Message).Groups[1].Value;
-            result[4] = rcvdRegex.Match(message.Message).Groups[1].Value;
+            result[0] = message.Timestamp.ToUniversalTime().ToString("yyyy-MM-DD hh:mm:ss");
+            result[1] = srcRegex.Match(message.Message).Value;
+            result[2] = dstRegex.Match(message.Message).Value;
+            result[3] = sentRegex.Match(message.Message).Value;
+            result[4] = rcvdRegex.Match(message.Message).Value;
 
             Trace.WriteLine("Message parsed");
-            
+
             return result;
-          }
+>>>>>>> 182436ae32b28b7df0214af973b2165c65d9d0f5
         }
 
         private Regex typeRegex;

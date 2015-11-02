@@ -425,12 +425,14 @@ namespace Syslog.Server
             // Ensure that a handler is defined for the MessageReceived event
             if (MessageReceived != null)
             {
+              Trace.WriteLine("Calling MessageReceived event");
               MessageReceived(new MessageReceivedEventArgs(sm));
             }
 
             //If the message is from an IP not listed in any filter do not process it
             if (!_ipFilters.ContainsKey(remoteEp.Address.ToString()))
             {
+              Trace.WriteLine("Remote IP not listed in filter");
               RegisterReceiveOperation();
               return;
             }
@@ -453,6 +455,7 @@ namespace Syslog.Server
             // Add the message to the LogBuffer if a storage Class is defined and message was parsed successfully.
             if (parsedMsg != null && _buffer != null && _ipFilters[remoteEp.Address.ToString()].StorerClassName != null)
             {
+              Trace.WriteLine("Adding message to buffer");
               _buffer.AddEntry(_ipFilters[remoteEp.Address.ToString()].AssemblyName, parsedMsg);
             }
           }
