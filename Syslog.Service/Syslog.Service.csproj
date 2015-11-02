@@ -78,6 +78,10 @@
       <Project>{9D39D0CF-55FF-43E9-A64F-9C720937116D}</Project>
       <Name>Syslog.Server</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TrafficLogger\TrafficLogger.csproj">
+      <Project>{f254ba01-9e6f-4c6e-b6c8-6a02c3241d1e}</Project>
+      <Name>TrafficLogger</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SyslogSharpService.resx">

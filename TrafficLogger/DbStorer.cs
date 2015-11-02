@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.OleDb;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,12 +14,14 @@ namespace Syslog.TrafficLogger
     {
         public DbStorer()
         {
+            Trace.WriteLine("Creating DbStorer");
             // Get the connection string
             conn = new OleDbConnection(ConfigurationManager.ConnectionStrings["trafficLog.Connection"].ConnectionString);
         }
 
         public bool StoreMessages(IEnumerable<string[]> messages)
         {
+            Trace.WriteLine(String.Format("Writing {0} messages", messages.Count()));
             conn.Open();
             try
             {
