@@ -15,6 +15,7 @@ namespace Syslog.TrafficLogger
     public DbStorer(string connectionString)
       : base(connectionString)
     {
+            Trace.WriteLine("Creating DbStorer");
       // Get the connection string
       conn = new OleDbConnection(connectionString);
     }
@@ -24,6 +25,7 @@ namespace Syslog.TrafficLogger
       Trace.WriteLine("Store messages");
       lock (conn)
       {
+            Trace.WriteLine(String.Format("Writing {0} messages", messages.Count()));
         conn.Open();
         try
         {
@@ -34,8 +36,8 @@ namespace Syslog.TrafficLogger
 values (?, ?, ?, ?, ?)";
             foreach (string val in msg)
             {
-                Trace.WriteLine(val);
-                cmd.Parameters.Add(new OleDbParameter { DbType = System.Data.DbType.String, Value = val });
+              Trace.WriteLine(val);
+              cmd.Parameters.Add(new OleDbParameter { DbType = System.Data.DbType.String, Value = val });
             }
             cmd.ExecuteNonQuery();
           }
