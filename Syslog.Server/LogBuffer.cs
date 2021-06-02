@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Diagnostics;
 
 namespace Syslog.Server
 {
@@ -133,6 +134,7 @@ namespace Syslog.Server
         /// </summary>
         public void Flush()
         {
+            Trace.WriteLine("Flushing");
             // Get a fast, one-way, read-only enumer of the buffers' keys
             var enumer = _buffers.Keys.GetEnumerator();
 	        List<string[]> copiedList = null;

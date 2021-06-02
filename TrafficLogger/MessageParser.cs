@@ -1,6 +1,7 @@
 ﻿using Syslog.Server;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -34,11 +35,11 @@ namespace Syslog.TrafficLogger
 
             // Get the bits we want
             string[] result = new string[5];
-            result[0] = message.Timestamp.ToUniversalTime().ToString("yyyy-MM-DD hh:mm:ss");
-            result[1] = srcRegex.Match(message.Message).Value;
-            result[2] = dstRegex.Match(message.Message).Value;
-            result[3] = sentRegex.Match(message.Message).Value;
-            result[4] = rcvdRegex.Match(message.Message).Value;
+            result[0] = message.Timestamp.ToString("yyyy-MM-dd HH:mm:ss");
+            result[1] = srcRegex.Match(message.Message).Groups[1].Value;
+            result[2] = dstRegex.Match(message.Message).Groups[1].Value;
+            result[3] = sentRegex.Match(message.Message).Groups[1].Value;
+            result[4] = rcvdRegex.Match(message.Message).Groups[1].Value;
             
             return result;
           }

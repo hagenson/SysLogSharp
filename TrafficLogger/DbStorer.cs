@@ -34,7 +34,8 @@ namespace Syslog.TrafficLogger
 values (?, ?, ?, ?, ?)";
             foreach (string val in msg)
             {
-              cmd.Parameters.Add(new OleDbParameter { DbType = System.Data.DbType.String, Value = msg });
+                Trace.WriteLine(val);
+                cmd.Parameters.Add(new OleDbParameter { DbType = System.Data.DbType.String, Value = val });
             }
             cmd.ExecuteNonQuery();
           }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syslog.Test", "Syslog.Test\Syslog.Test.csproj", "{AA3E8C4F-77EA-4CAF-B5C1-AA47984281B2}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syslog.GenericFilter", "Syslog.GenericFilter\Syslog.GenericFilter.csproj", "{D9C405CC-9CB0-4F71-9728-A5AA9FE891C3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficLogger", "TrafficLogger\TrafficLogger.csproj", "{F254BA01-9E6F-4C6E-B6C8-6A02C3241D1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syslog.UnitTests", "Syslog.UnitTests\Syslog.UnitTests.csproj", "{3F809A00-B2D9-4BD0-AF2C-DEBA1473E069}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -151,6 +153,26 @@ Global
 		{F254BA01-9E6F-4C6E-B6C8-6A02C3241D1E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{F254BA01-9E6F-4C6E-B6C8-6A02C3241D1E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F254BA01-9E6F-4C6E-B6C8-6A02C3241D1E}.Release|x86.ActiveCfg = Release|Any CPU
+		{3F809A00-B2D9-4BD0-AF2C-DEBA1473E069}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F809A00-B2D9-4BD0-AF2C-DEBA1473E069}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F809A00-B2D9-4BD0-AF2C-DEBA1473E069}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3F809A00-B2D9-4BD0-AF2C-DEBA1473E069}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3F809A00-B2D9-4BD0-AF2C-DEBA1473E069}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3F809A00-B2D9-4BD0-AF2C-DEBA1473E069}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F809A00-B2D9-4BD0-AF2C-DEBA1473E069}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{3F809A00-B2D9-4BD0-AF2C-DEBA1473E069}.DebugLocal|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3F809A00-B2D9-4BD0-AF2C-DEBA1473E069}.DebugLocal|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3F809A00-B2D9-4BD0-AF2C-DEBA1473E069}.DebugLocal|x86.ActiveCfg = Debug|Any CPU
+		{3F809A00-B2D9-4BD0-AF2C-DEBA1473E069}.Production|Any CPU.ActiveCfg = Release|Any CPU
+		{3F809A00-B2D9-4BD0-AF2C-DEBA1473E069}.Production|Any CPU.Build.0 = Release|Any CPU
+		{3F809A00-B2D9-4BD0-AF2C-DEBA1473E069}.Production|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3F809A00-B2D9-4BD0-AF2C-DEBA1473E069}.Production|Mixed Platforms.Build.0 = Release|Any CPU
+		{3F809A00-B2D9-4BD0-AF2C-DEBA1473E069}.Production|x86.ActiveCfg = Release|Any CPU
+		{3F809A00-B2D9-4BD0-AF2C-DEBA1473E069}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F809A00-B2D9-4BD0-AF2C-DEBA1473E069}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F809A00-B2D9-4BD0-AF2C-DEBA1473E069}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3F809A00-B2D9-4BD0-AF2C-DEBA1473E069}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3F809A00-B2D9-4BD0-AF2C-DEBA1473E069}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

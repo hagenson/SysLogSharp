@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License along with Syslog Sharp. If not, see http://www.gnu.org/licenses/.
 */
 
+using System.Collections.Specialized;
 using System.Configuration;
 
 namespace Syslog.Server.Config
@@ -106,10 +107,11 @@ namespace Syslog.Server.Config
             set { this["ipForwards"] = value; }
         }
 
-        [ConfigurationProperty("properties", IsDefaultCollection = false), ConfigurationCollection(typeof(PropertyCollection), AddItemName = "add", ClearItemsName = "clear", RemoveItemName = "remove")]
-        public PropertyCollection HandlerProperties
+        [ConfigurationProperty("handlerProperties", IsDefaultCollection = false), ConfigurationCollection(typeof(KeyValueConfigurationCollection), AddItemName = "add", ClearItemsName = "clear", RemoveItemName = "remove")]
+        public KeyValueConfigurationCollection HandlerProperties
         {
-          get { return base["properties"] as PropertyCollection; }
+          get { return base["handlerProperties"] as KeyValueConfigurationCollection; }
         }
+
     }
 }
