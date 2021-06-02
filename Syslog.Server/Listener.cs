@@ -37,6 +37,7 @@ using System.Net;
 using System.Net.Sockets;
 using Syslog.Server.Config;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Syslog.Server
 {
@@ -178,7 +179,13 @@ namespace Syslog.Server
         // Load each module (handler) from the configuration file
         foreach (HandlerConfiguration handler in handlers.Handlers)
         {
-          var msgHandler = new MessageHandler(handler.AssemblyName, handler.ParserClassName, handler.StorageClassName, handler.ConnectionString);
+          IDictionary<string, string> properties = new Dictionary<string, string>();
+          handler.HandlerProperties.AllKeys.All(key =>
+          {
+            properties[key] = handler.HandlerProperties[key].Value;
+            return true;
+          });
+          var msgHandler = new MessageHandler(handler.AssemblyName, handler.ParserClassName, handler.StorageClassName, handler.ConnectionString, properties);
 
           // If the handler has a storage class then setup the buffer to temporarily store the messages
           if (handler.StorageClassName != null)
